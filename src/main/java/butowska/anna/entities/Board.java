@@ -16,6 +16,7 @@ public class Board {
     private Tile[][] board;
     private Level chosenLevel;
     private boolean isDead = false;
+    private boolean hasWon = false;
     private int numberOfBombsLeft;
 
     public void Start(){
@@ -178,7 +179,7 @@ public class Board {
             }
         }
 
-        return true;
+        return false;
     }
 
     public void Draw(){
@@ -189,18 +190,36 @@ public class Board {
         }
     }
 
-    public void MakeMove(String move){
-        String kindOfMove = move.split(" ")[0];
-        int row = Integer.parseInt(move.split(" ")[1]);
-        int col = Integer.parseInt(move.split(" ")[2]);
-        if(kindOfMove.equals("d"))
-            DiscoverTile(row, col, 0);
-        else if(kindOfMove.equals("f")){
-            if(board[row][col].isFlagged())
-                board[row][col].setFlagged(false);
-            else
-                board[row][col].setFlagged(true);
+    private boolean CheckIfWon(){
+        int discovered = 0;
+        int toDiscover = chosenLevel.getHeight() * chosenLevel.getWidth() - chosenLevel.getNumberOfBombs();
+        for(int row = 0; row < chosenLevel.getHeight(); row++)
+            for(int col = 0; col < chosenLevel.getWidth(); col++){
+                if(board[row][col].isDiscovered())
+                    discovered++;
+            }
+        if(discovered == toDiscover)
+            return true;
+        return false;
+    }
+
+    public boolean MakeMove(String move){
+        if(!isDead && !hasWon){
+            String kindOfMove = move.split(" ")[0];
+            int row = Integer.parseInt(move.split(" ")[1]);
+            int col = Integer.parseInt(move.split(" ")[2]);
+            if(kindOfMove.equals("d"))
+                DiscoverTile(row, col, 0);
+            else if(kindOfMove.equals("f")){
+                if(board[row][col].isFlagged())
+                    UnFlagTile(row, col);
+                else
+                    FlagTile(row, col);
+            }
+            hasWon = CheckIfWon();
         }
+
+        return isDead;
     }
 
 }

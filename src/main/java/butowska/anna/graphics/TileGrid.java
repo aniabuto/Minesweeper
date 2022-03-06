@@ -13,6 +13,8 @@ public class TileGrid extends JPanel implements ActionListener, MouseListener
     static JPanel jPanel = new JPanel();
     Button[][] buttons;
     JButton[][] jButtons;
+    JLabel bombsLeft;
+    Reset resetButton;
     Board board;
     int width;
     int height;
@@ -28,8 +30,8 @@ public class TileGrid extends JPanel implements ActionListener, MouseListener
         buttons = new Button[this.width][this.height];
         jButtons = new JButton[this.width][this.height];
 
-        for(int i = 0; i < this.width; i++)
-            for(int j = 0; j < this.height; j++){
+        for (int i = 0; i < this.width; i++)
+            for (int j = 0; j < this.height; j++) {
                 buttons[i][j] = new Button(board.getTile(i, j), i, j, tileSize);
                 JButton jButton = buttons[i][j].getJButton();
                 jButton.setActionCommand(i + "," + j);
@@ -44,16 +46,23 @@ public class TileGrid extends JPanel implements ActionListener, MouseListener
 
     }
 
+    public void ResetGame(Board newBoard){
+        this.board = newBoard;
+    }
+
     public void Update(){
         for(int i = 0; i < this.width; i++)
             for(int j = 0; j < this.height; j++){
                 buttons[i][j].setTile(board.getTile(i, j));
                 jButtons[i][j].setIcon(buttons[i][j].getIcon());
             }
+        bombsLeft.setText("\tBombs left: " + Integer.toString(board.getNumberOfBombsLeft()));
+        resetButton.setIcon(resetButton.getIcon());
     }
 
     public void LeftClick(int row, int col){
-        board.MakeMove("d " + row + " " + col);
+        if(board.MakeMove("d " + row + " " + col))
+            Update();
     }
 
     public void RightClick(int row, int col){
@@ -102,7 +111,7 @@ public class TileGrid extends JPanel implements ActionListener, MouseListener
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        //System.out.println("entered!");
     }
 
     @Override
