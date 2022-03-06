@@ -117,6 +117,10 @@ public class Board {
         return true;
     }
 
+    public Tile getTile(int row, int col){
+        return board[row][col];
+    }
+
     public boolean DiscoverTile(int row, int col, int lvl){
         Tile tmp = board[row][col];
         if(tmp.isFlagged())
