@@ -101,80 +101,82 @@ public class Board {
                 board[row][col].setNumberOfBombsInNeighbourhood(bombsInNeighbourhood);
             }
 
+        //System.out.println("Init Ended");
+
     }
 
     private void FlagTile(int row, int col){
-        board[row][col].setFlagged(true);
+        board[col][row].setFlagged(true);
         numberOfBombsLeft--;
     }
 
     private void UnFlagTile(int row, int col){
-        board[row][col].setFlagged(false);
+        board[col][row].setFlagged(false);
         numberOfBombsLeft++;
     }
 
-    private boolean Die(int row, int col){
+    private boolean Die(){
         isDead = true;
         return true;
     }
 
     public Tile getTile(int row, int col){
-        return board[row][col];
+        return board[col][row];
     }
 
     public boolean DiscoverTile(int row, int col, int lvl){
-        Tile tmp = board[row][col];
+        Tile tmp = board[col][row];
         if(tmp.isFlagged())
             return false;
         if(tmp.isABomb() && lvl == 0){
-            board[row][col].setDiscovered(true);
-            return Die(row, col);
+            board[col][row].setDiscovered(true);
+            return Die();
         }
         else if(tmp.isABomb()){
             return false;
         }
-        if(board[row][col].isDiscovered())
+        if(board[col][row].isDiscovered())
             return false;
-        board[row][col].setDiscovered(true);
+        board[col][row].setDiscovered(true);
         if(tmp.getNumberOfBombsInNeighbourhood() == 0){
             int newRow = row + 1;
             int newCol = col + 1;
-            if(newRow >= 0 && newCol >= 0 && newRow < chosenLevel.getHeight() && newCol < chosenLevel.getWidth()){
+            if(newRow >= 0 && newCol >= 0 && newCol < chosenLevel.getHeight() && newRow < chosenLevel.getWidth()){
                 this.DiscoverTile(newRow, newCol, lvl + 1);
             }
             newRow = row + 1;
             newCol = col - 1;
-            if(newRow >= 0 && newCol >= 0 && newRow < chosenLevel.getHeight() && newCol < chosenLevel.getWidth()){
+            if(newRow >= 0 && newCol >= 0 && newCol < chosenLevel.getHeight() && newRow < chosenLevel.getWidth()){
                 this.DiscoverTile(newRow, newCol, lvl + 1);
             }
             newRow = row - 1;
             newCol = col - 1;
-            if(newRow >= 0 && newCol >= 0 && newRow < chosenLevel.getHeight() && newCol < chosenLevel.getWidth()){
+            if(newRow >= 0 && newCol >= 0 && newCol < chosenLevel.getHeight() && newRow < chosenLevel.getWidth()){
                 this.DiscoverTile(newRow, newCol, lvl + 1);
             }
             newRow = row - 1;
             newCol = col + 1;
-            if(newRow >= 0 && newCol >= 0 && newRow < chosenLevel.getHeight() && newCol < chosenLevel.getWidth()){
+            if(newRow >= 0 && newCol >= 0 && newCol < chosenLevel.getHeight() && newRow < chosenLevel.getWidth()){
                 this.DiscoverTile(newRow, newCol, lvl + 1);
             }
             newRow = row;
             newCol = col - 1;
-            if(newRow >= 0 && newCol >= 0 && newRow < chosenLevel.getHeight() && newCol < chosenLevel.getWidth()){
+            if(newRow >= 0 && newCol >= 0 && newCol < chosenLevel.getHeight() && newRow < chosenLevel.getWidth()){
                 this.DiscoverTile(newRow, newCol, lvl + 1);
             }
             newRow = row;
             newCol = col + 1;
-            if(newRow >= 0 && newCol >= 0 && newRow < chosenLevel.getHeight() && newCol < chosenLevel.getWidth()){
+            if(newRow >= 0 && newCol >= 0 && newCol < chosenLevel.getHeight() && newRow < chosenLevel.getWidth()){
                 this.DiscoverTile(newRow, newCol, lvl + 1);
             }
             newRow = row - 1;
             newCol = col;
-            if(newRow >= 0 && newCol >= 0 && newRow < chosenLevel.getHeight() && newCol < chosenLevel.getWidth()){
+            if(newRow >= 0 && newCol >= 0 && newCol < chosenLevel.getHeight() && newRow < chosenLevel.getWidth()){
                 this.DiscoverTile(newRow, newCol, lvl + 1);
             }
             newRow = row + 1;
             newCol = col;
-            if(newRow >= 0 && newCol >= 0 && newRow < chosenLevel.getHeight() && newCol < chosenLevel.getWidth()){
+            if(newRow >= 0 && newCol >= 0 && newCol < chosenLevel.getHeight() && newRow < chosenLevel.getWidth()){
                 this.DiscoverTile(newRow, newCol, lvl + 1);
             }
         }
@@ -211,7 +213,7 @@ public class Board {
             if(kindOfMove.equals("d"))
                 DiscoverTile(row, col, 0);
             else if(kindOfMove.equals("f")){
-                if(board[row][col].isFlagged())
+                if(board[col][row].isFlagged())
                     UnFlagTile(row, col);
                 else
                     FlagTile(row, col);

@@ -48,6 +48,25 @@ public class TileGrid extends JPanel implements ActionListener, MouseListener
 
     public void ResetGame(Board newBoard){
         this.board = newBoard;
+//        this.width = this.board.getChosenLevel().getWidth();
+//        this.height = this.board.getChosenLevel().getHeight();
+//        setLayout(new GridLayout(this.width, this.height));
+//        buttons = new Button[this.width][this.height];
+//        jButtons = new JButton[this.width][this.height];
+//
+//        for (int i = 0; i < this.width; i++)
+//            for (int j = 0; j < this.height; j++) {
+//                buttons[i][j] = new Button(board.getTile(i, j), i, j, tileSize);
+//                JButton jButton = buttons[i][j].getJButton();
+//                jButton.setActionCommand(i + "," + j);
+//                jButtons[i][j] = jButton;
+//                jButtons[i][j].addActionListener(this);
+//                jButtons[i][j].addMouseListener(this);
+//                add(jButtons[i][j]);
+//            }
+//
+//        setVisible(true);
+//        setSize(new Dimension(tileSize * width, tileSize * height));
     }
 
     public void Update(){
